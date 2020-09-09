@@ -2,6 +2,8 @@
 ```
 本文需安装插件才能正常浏览 plantuml图
 https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+
+Idea 中如果要正常浏览，需要使用 Markdown navigator插件替换原有的Markdown插件
 ```
 ## 类之间的关系
 
@@ -63,28 +65,102 @@ Graph <.. Client
 ## 类之间的关系
 * 依赖关系
 * 关联关系
-* 关联关系
 * 聚合关系
 * 组合关系
 * 泛化关系
 * 实现关系
 ### 1 依赖关系
-### 2 依赖关系
-### 3 关联关系
-### 4 关联关系
-### 5 聚合关系
-### 6 组合关系
-### 7 泛化关系
-### 8 实现关系
-
-![](images/FA761ED8-9EAB-4052-BE26-9BD65786F82C.png)
-
-![](images/64AD4858-4E5D-4373-BC0E-01785DED24D3.png)
-
-![](images/9464509F-FDEA-4BAD-BF47-B0ED74050F19.png)
-
-![](images/87E75223-0513-4555-8A57-5103782E1237.png)
-
-![](images/5F1DF2F9-8BFD-46A0-B207-5A6D72EFFBC2.png)
-
-![](images/CFE67C44-BF9C-4AC9-90A3-DB5E6552413C.png)
+```plantuml
+@startuml
+class Person {
+  String name;
+  void call(MobilePhone mp);
+}
+class MobilePhone {
+  void transfer();
+}
+note bottom of Person 
+public void call(MobilePhone mp){ 
+    mp.transfer();
+}   
+end note
+Person ..> MobilePhone : 打电话
+@enduml
+```
+### 2 关联关系
+```plantuml
+@startuml
+class Teacher {
+  String name;
+  List<Student> stus;
+  void teaching();
+}
+class Student {
+  String name;
+  List<Teacher> teas;
+  void study();
+}
+Teacher -- Student : 教学者 学习者
+@enduml
+```
+### 3 聚合关系
+```plantuml
+@startuml
+class University {
+  List<Teacher> teas;
+}
+class Teacher {
+  String name;
+  void teaching();
+}
+University o-- Teacher
+@enduml
+```
+### 4 组合关系
+```plantuml
+@startuml
+class Head {
+  Mouth mouth;
+}
+class Mouth {
+  void eat();
+}
+Head *-- Mouth
+@enduml
+```
+### 5 泛化关系
+```plantuml
+@startuml
+class Person {
+  String name;
+  int age;
+  void speak();
+}
+class Student{
+  long studentNo;
+  void study();
+}
+class Teacher{
+  long teacherNo;
+  void teaching();
+}
+Person <|-- Student
+Person <|-- Teacher
+@enduml
+```
+### 6 实现关系
+```plantuml
+@startuml
+Interface Vehicle {
+  void move();
+}
+class Car{
+  void move();
+}
+class Ship{
+  void move();
+}
+Vehicle <|.. Car
+Vehicle <|.. Ship
+@enduml
+```
