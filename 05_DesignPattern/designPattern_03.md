@@ -1,21 +1,81 @@
 # UML中的类图及类图之间的关系
-
+```
+本文需安装插件才能正常浏览 plantuml图
+https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+```
 ## 类之间的关系
+
+![](images/9A8827C7-291C-4FF4-BD54-EB6BD726A986.png)
+
+## 类图
 ```plantuml
 @startuml
-class Dummy {
-  String data
-  void methods()
+class Student {
+  long no;
+  String name;
+  String school;
+  float totalScore;
+  void display();
 }
 @enduml
 ```
-![](images/9A8827C7-291C-4FF4-BD54-EB6BD726A986.png)
 
-![](images/70D84882-799C-4560-AA9C-99601419132F.png)
+## 接口
+```plantuml
+@startuml
+interface Graph {
 
-![](images/38F2535D-BE61-42DE-A2EF-8A44D3C0C562.png)
+  double getArea();
+  double getPerimeter();
+}
+@enduml
+```
 
-![](images/AA516B9A-4192-4626-871F-DE944ADA6455.png)
+## 有关系的类图
+
+```plantuml
+@startuml
+interface Graph {
+  double getArea();
+  double getPerimeter();
+}
+class Client {
+  void calculate(Graph tx);
+}
+
+class Rectangle {
+  double length;
+  double width;
+  double getArea();
+  double getPerimeter();
+}
+class Circular {
+  double radius;
+  double getArea();
+  double getPerimeter();
+}  
+Graph <|.. Rectangle
+Graph <|.. Circular
+Graph <.. Client
+@enduml
+```
+
+## 类之间的关系
+* 依赖关系
+* 关联关系
+* 关联关系
+* 聚合关系
+* 组合关系
+* 泛化关系
+* 实现关系
+### 1 依赖关系
+### 2 依赖关系
+### 3 关联关系
+### 4 关联关系
+### 5 聚合关系
+### 6 组合关系
+### 7 泛化关系
+### 8 实现关系
 
 ![](images/FA761ED8-9EAB-4052-BE26-9BD65786F82C.png)
 
