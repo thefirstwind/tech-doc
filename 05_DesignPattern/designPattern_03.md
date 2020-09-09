@@ -1,0 +1,30 @@
+# UML中的类图及类图之间的关系
+
+## 类之间的关系
+```plantuml
+@startuml
+class Dummy {
+  String data
+  void methods()
+}
+@enduml
+```
+![](images/9A8827C7-291C-4FF4-BD54-EB6BD726A986.png)
+
+![](images/70D84882-799C-4560-AA9C-99601419132F.png)
+
+![](images/38F2535D-BE61-42DE-A2EF-8A44D3C0C562.png)
+
+![](images/AA516B9A-4192-4626-871F-DE944ADA6455.png)
+
+![](images/FA761ED8-9EAB-4052-BE26-9BD65786F82C.png)
+
+![](images/64AD4858-4E5D-4373-BC0E-01785DED24D3.png)
+
+![](images/9464509F-FDEA-4BAD-BF47-B0ED74050F19.png)
+
+![](images/87E75223-0513-4555-8A57-5103782E1237.png)
+
+![](images/5F1DF2F9-8BFD-46A0-B207-5A6D72EFFBC2.png)
+
+![](images/CFE67C44-BF9C-4AC9-90A3-DB5E6552413C.png)
