@@ -19,11 +19,11 @@ https://www.bilibili.com/video/BV1ZK411p7cr?p=1
 * 14 用一句话说明你的JVM水平很牛
 
 ## 目录
-* 1. what is garbage
-* 2. how to find it
-* 3. GC algorithms
-* 4. Available collectors
-* 5. tuning
+* 1 what is garbage
+* 2 how to find it
+* 3 GC algorithms
+* 4 Available collectors
+* 5 tuning
 
 ## 第一部分 什么是垃圾
 ![](images/52F58F4D-436E-4AFA-B8FF-9ACA196171B8.png)
@@ -53,22 +53,29 @@ https://www.bilibili.com/video/BV1ZK411p7cr?p=1
 
 ### 1. Mark-Sweep/标记清楚
 ![](images/5E03E0F5-DCA5-4133-964C-DAB93F2C5345.png)
-那些是垃圾，那些就标记出来，然后直接清楚，但是会造成碎片。
+
+哪些是垃圾，那些就标记出来，然后直接清楚，但是会造成碎片。
 * 缺点：碎片
 
 ### 2. Copying/拷贝
+
 ![](images/8C2E8802-F49C-4BED-AC49-9AAAC2E25265.png)
+
 收先将内存一分为二，那些是不是垃圾，就copy到下面，有用的连接在一起，没用的连接在一起。
 但是问题就在于 空间浪费。
 * 缺点：空间浪费
 
 ### 3. Mark-Compact/标记压缩
+
 ![](images/86805EAC-F279-4A10-A5C9-226A1172539A.png)
+
 有用的压缩在一起，没用的压缩在一起，边清理，边压缩。
 * 缺点：效率低
 
 ## 第四部分 垃圾回收器
+
 ![](images/FF18BB2C-CAC7-4965-AC1A-E1757678A717.png)
+
 * 分代模型
   * ParNew
   * CMS
@@ -182,8 +189,11 @@ CMS
  
 ![](images/50804399-2A9B-459C-8280-30296E439C13.png)
 
+
 ### 三色标记算法
+
 出现错标的场景
+
 ![](images/8AD6258F-ED0D-47BD-A5C6-D77490484B11.png)
 ![](images/318F010A-550F-4486-BEC9-EE228EE322D9.png)
 
