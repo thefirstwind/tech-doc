@@ -7,7 +7,7 @@ Idea 中如果要正常浏览，需要使用 Markdown navigator插件替换原�
 ```
 ## 类之间的关系
 
-![](images/9A8827C7-291C-4FF4-BD54-EB6BD726A986.png)
+![](../images/9A8827C7-291C-4FF4-BD54-EB6BD726A986.png)
 
 ## 类图
 ```plantuml
