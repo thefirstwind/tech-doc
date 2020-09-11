@@ -27,7 +27,7 @@ https://www.bilibili.com/video/BV1mC4y1H7QC?p=1
 * 5 tuning
 
 ## 第一部分 什么是垃圾
-![](images/52F58F4D-436E-4AFA-B8FF-9ACA196171B8.png)
+![](/02_JVM/images/52F58F4D-436E-4AFA-B8FF-9ACA196171B8.png)
 再引用不到的对象就是垃圾
 
 ## 第二部分 如何找打垃圾
