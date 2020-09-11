@@ -1,4 +1,5 @@
 # JVM 概述
+注：本文有大量配图，想正常浏览，请下载到本地观看
 
 ## 参考资料
 https://www.bilibili.com/video/BV1ZK411p7cr?p=1
