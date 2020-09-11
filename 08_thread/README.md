@@ -1,6 +1,6 @@
 https://www.bilibili.com/video/BV12A411E7zo/
 
-## 面试的套路
+## 考核thread理解的套路
 * 上天
   * 锻炼解决问题技能
   * 高并发 缓存 大流量 大数据量
