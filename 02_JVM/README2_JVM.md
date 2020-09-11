@@ -1,5 +1,5 @@
 # JVM 概述2
-注：本文有大量配图，想正常浏览，请下载到本地观看
+注：本文有大量配图，想正常浏览，请下载到本地观看 或者参考下文 设置 https://blog.csdn.net/lr157/article/details/105665798
 
 ### 一个class的生命周期
 ![](images/8F46E6D0-D1A4-4663-B7EC-4B6C36B1AD5B.png)

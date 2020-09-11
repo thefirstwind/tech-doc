@@ -1,5 +1,5 @@
 # JVM 概述
-注：本文有大量配图，想正常浏览，请下载到本地观看
+注：本文有大量配图，想正常浏览，请下载到本地观看 或者参考下文 设置 https://blog.csdn.net/lr157/article/details/105665798
 
 ## 参考资料
 https://www.bilibili.com/video/BV1ZK411p7cr?p=1
@@ -27,7 +27,7 @@ https://www.bilibili.com/video/BV1mC4y1H7QC?p=1
 * 5 tuning
 
 ## 第一部分 什么是垃圾
-![](/02_JVM/images/52F58F4D-436E-4AFA-B8FF-9ACA196171B8.png)
+![](images/52F58F4D-436E-4AFA-B8FF-9ACA196171B8.png)
 再引用不到的对象就是垃圾
 
 ## 第二部分 如何找打垃圾
