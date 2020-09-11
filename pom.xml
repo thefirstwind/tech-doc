@@ -15,6 +15,8 @@
         <module>04_DesignPattern</module>
         <module>05_DesignPattern</module>
 <!--        <module>06_DesignPattern_Practise</module>-->
+        <module>07_thread</module>
+        <module>08_thread</module>
 
     </modules>
 
