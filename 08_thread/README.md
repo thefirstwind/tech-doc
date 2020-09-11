@@ -63,7 +63,7 @@ https://www.bilibili.com/video/BV12A411E7zo/
 * synchronized 锁定是，锁一个对象
 > 参考 Case011_Synchronized
 
-* synchronized(this) 和 public synchronized void m(){} 是等价的
+### synchronized(this) 和 public synchronized void m(){} 是等价的
 > 注 Case012_Synchronized 和 Case013_Synchronized 是等价的
 ```
 public class Case012_Synchronized {
@@ -90,7 +90,7 @@ public class Case013_Synchronized {
 
 ```
 
-* synchronized 加载静态方法上，相当于 加载 Class上
+### synchronized 加载静态方法上，相当于 加载 Class上
 ```
 public class Case014_Synchronized {
 
@@ -109,4 +109,69 @@ public class Case014_Synchronized {
 }
 ```
 
+### 在一个class里面，一个方法加了synchronized ，另外一个不加，那么他们之间的运行，是否可以并行
 
+```
+public class Case015_Synchronzied {
+
+    public synchronized void m1(){
+        System.out.println(Thread.currentThread().getName() + " m1 start");
+        try{
+            Thread.sleep(1000);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + " m1 end");
+    }
+
+    public void m2(){
+        System.out.println(Thread.currentThread().getName() + " m2 start");
+        try{
+            Thread.sleep(500);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + " m2 end");
+    }
+
+    public static void main(String[] args){
+        Case015_Synchronzied t = new Case015_Synchronzied();
+
+        new Thread(t::m1, "t1").start();
+        new Thread(t::m2, "t2").start();
+    }
+
+}
+```
+结论是可以的
+
+### synchronzied的可重入特性
+m1 m2 都加锁， m2调m1，可以吗？允许，是可重入锁
+原因 如果有个父类，父类加锁，子类也加锁，子类调用父类 super方法，如果不可重入，就死锁了。
+
+> 参考 Case017_Synchronzied
+
+### 程序如果出现异常，锁会被释放
+```
+ 程序在执行过程中，如果出现异常，默认情况锁会被释放
+ 所以，在并发处理过程中，有异常要多加小心，不然可能会发生不一致的情况。
+ 比如在一个web app处理过程中，多个servlet线程共同访问一个资源，这时如果异常处理不合适，
+ 在第一个线程中抛出异常，其他线程就会进入同步代码区，有可能会访问到异常产生时的数据。
+ 因此要非常小心的处理同步业务逻辑中的异常
+```
+> 参考 Case018_Synchronzied
+
+
+### synchronized的历史 与 底层时间
+锁升级问题
+
+* 偏向锁
+* 自旋锁
+* OS重量级锁 /系统锁（自旋锁 10次以后 ）
+
+###  什么情况下用自旋锁好， 什么情况下用 系统锁
+* 执行时间长用 线程数多 系统锁
+* 执行时间少 线程少 用自旋锁
+
+马士兵说：没错，我就是厕所所长！(一) https://www.bilibili.com/read/cv2816942/  
+马士兵说：没错，我就是厕所所长！(二) https://www.bilibili.com/read/cv2846899/
