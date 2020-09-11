@@ -74,6 +74,12 @@ eden经历过一次gc后，90%的垃圾会被回收，
 ### Hotspot的垃圾收集器
 ![](images/86344157-73A5-493E-A5B2-C1C566D5337A.png)
 
+### CMS和G1的三色标记
+https://www.bilibili.com/video/BV1mC4y1H7QC?p=8
+
+### ZGC的颜色标记
+https://www.bilibili.com/video/BV1mC4y1H7QC?p=9
+
 
 ## 各种垃圾回收器
 * Serial 几十兆

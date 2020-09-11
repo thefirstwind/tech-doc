@@ -318,6 +318,7 @@ UseCompressedOops
 * jinfo
 * jstat -gc [pid] 1000
 * jmap：当前服务器是要暂停的
+jamp -histo [pid] | head -20
 * 图形界面都是在上线之前的内测
 * 实际情况中使用 arthas
 
@@ -482,7 +483,7 @@ java -jar arthas-boot.jar
  <id>                                           Show thread stack
 ```
 
-* sc 命令
+### sc 命令
 ```
 [arthas@23895]$ sc *com.thefirstwind*
 com.thefirstwind.Case_03_FullGC
@@ -495,7 +496,7 @@ com.thefirstwind.Case_03_FullGC
 Affect(row-cnt:1) cost in 3 ms.
 ```
 
-* sm 命令
+### sm 命令
 ```
 [arthas@23895]$ sm *com.thefirstwind*
 com.thefirstwind.Case_03_FullGC$CardInfo$$Lambda$16/0x0000000800066040 <init>(Lcom/thefirstwind/Case_03_FullGC$CardInfo;)V
@@ -514,9 +515,62 @@ com.thefirstwind.Case_03_FullGC$CardInfo$$Lambda$15/0x0000000800066c40 accept(Lj
 Affect(row-cnt:13) cost in 7 ms.
 ```
 
-* trace 命令
+### trace 命令
 
-* monitor 命令
+### monitor 命令
 
 
 https://www.bilibili.com/video/BV1mC4y1H7QC?p=7
+
+### OOM 的定位方法
+* jmap 出来 ， jmap -histo [pid] | head -20
+* arthas + jmap 一起组合用
+* 但是生产使用jmap的话，堆会直接影响线上环境，线上系统，内存特别大，jmap执行期间会对进程产生很大的影响，甚至卡顿（电商不适合）
+  * 1 设定了参数HeapDump，OOM的时候会自动产生栈转存文件
+  * 2 许多服务器备份（高可用），停掉这台服务器对其他服务器不影响。
+  * 3 在线定位（一般小公司用不到）
+  * 4 在测试环境中压测（产生类似内存增长问题，在堆还不是很大的时候进行转存）
+
+https://www.bilibili.com/video/BV1mC4y1H7QC?p=8
+### jad 命令
+* 在判断线上公司代码是否是最新的
+
+### redefine 应急线上的操作，打补丁
+```java
+public class Case_04_T {
+    public static void main(String[] args) throws Exception {
+        for(;;){
+            System.in.read();
+            new Case_04_TT().m();
+        }
+    }
+}
+public class Case_04_TT {
+    public void m(){
+        System.out.println(1);
+    }
+}
+```
+要把 TT里面打印改成2
+
+javac Case_04_T.java
+
+然后
+redefine /Users/xnxing/projects.tech-doc/tech-doc/03_JVM_Practise/src/main/java/com/thefirstwind/Case_04_TT.class
+
+结果如下
+```
+"/Applications/IntelliJ IDEA.app/Contents/jbr/Contents/Home/bin/java" "-javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=49848:/Applications/IntelliJ IDEA.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath /Users/xnxing/projects.tech-doc/tech-doc/03_JVM_Practise/target/classes com.thefirstwind.Case_04_T
+
+1
+
+1
+
+2
+
+2
+
+2
+
+```
+
