@@ -172,7 +172,7 @@ Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 * class pointer: 类型指针，指向属于什么类
 * instance data: 实例数据
 * padding: 对齐(补位)
-
+>
 * markword 8个字节
 * class pointer 4个字节
 * instance data 0个字节
@@ -187,7 +187,9 @@ Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 
 
 > 以上所有信息记录在markword里面
+>
 > markword一共有 64位 4个字节
+>
 > markword里面记录了：锁，GC，分代，和 hashcode的信息
 
 
