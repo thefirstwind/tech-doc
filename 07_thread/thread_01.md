@@ -165,8 +165,11 @@ Instance size: 16 bytes
 Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 
 ```
+
 解释一下
+
 ![](images/2D111ECC-D8C9-4941-9BEF-D9050DF3E244.png)
+
 一个对象有4个部分
 * markword: 关于锁的信息，关于synchronized所有信息
 * class pointer: 类型指针，指向属于什么类
