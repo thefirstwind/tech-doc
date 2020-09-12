@@ -24,3 +24,8 @@
 77C9CAF7-869F-4B08-B3ED-F4A8478F958F
 ### CAS
 ![](images/40B32C01-EBAD-4FA8-B6D5-EC4C18B9A95D.png)
+Compare And Swap (Cpmpare And Exchange)/自旋/自旋锁/无锁
+
+应为经常配合循环操作，直到完成为止，所以泛指一类操作
+
+CAS(v,a,b), 变量v，期待值a， 修改值b
