@@ -854,3 +854,10 @@ public class Case012_PhantomReference {
 > JVM内有一个对象，关联着一个堆外内存，如果没人回收的话，会造成内存泄露
 > 所以需要对以上的对象 进行管理。
 > 那么将以上的对象 挂上一个虚引用即可。
+
+
+> 参考资料
+> https://www.bilibili.com/video/BV1xK4y1C7aT?p=1
+## 索引
+[1 Java多线程高并发详解](README.md)
+[2 Java多线程高并发详解2](README2.md)
