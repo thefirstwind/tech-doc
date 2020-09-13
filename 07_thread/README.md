@@ -653,6 +653,7 @@ class M{
 * 内存不够用的时候，直接把软引用拿走
 * 主要用途是缓存
 * 执行的时候 添加 -Xms20M
+* SoftReference
 ```
 import java.lang.ref.SoftReference;
 
@@ -676,7 +677,78 @@ public class Case010_SoftReference {
 
 ```
 ### 6.3 弱引用
+#### 6.3.1 弱引用特点
+* 弱引用 就是一次性使用
+```
+import java.lang.ref.WeakReference;
+
+public class Case011_WeakReference {
+    public static void main(String[] args){
+        WeakReference<M> m = new WeakReference<>(new M());
+
+        System.out.println(m.get());
+        System.gc();
+        System.out.println(m.get());
+
+        ThreadLocal<M> tl = new ThreadLocal<>();
+        tl.set(new M());
+        tl.remove();
+    }
+}
+
+```
+#### 6.3.2 弱引用的实现
+![](images/7D1CA952-856F-4DA4-8F23-DE06002BF4CB.png)
+
+#### 6.3.3 弱引用的应用
+JVM 里面的NIO
+
 ### 6.4 虚引用
+![](images/37F4F531-84D9-49C1-AFE6-80373F409EE8.png)
+* 虚引用的作用： 管理堆外内存
+* 在JVM中 GC是管理堆内内存的，专门的一个垃圾线程 专门管理 堆外内存
+```java
+import java.lang.ref.PhantomReference;
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class Case012_PhantomReference {
+
+    private static final List<Object> LIST = new LinkedList<>();
+    private static final ReferenceQueue<M> QUEUE = new ReferenceQueue<>();
+    public static void main(String[] args){
+        PhantomReference<M> phantomReference = new PhantomReference<>(new M(), QUEUE);
+
+        new Thread(()->{
+           while(true){
+               LIST.add( new byte[1024 * 1024]);
+               try{
+                   Thread.sleep(1);
+               }catch(InterruptedException e){
+                   e.printStackTrace();
+                   Thread.currentThread().interrupt();
+               }
+               System.out.println(phantomReference.get());
+           }
+        }).start();
+
+        new Thread(()->{
+            while(true){
+                Reference<? extends M> poll = QUEUE.poll();
+                if(poll != null){
+                    System.out.println("------- 被回收了 ------ " + poll);
+                }
+            }
+        }).start();
+    }
+}
+```
+> JVM内有一个对象，关联着一个堆外内存，如果没人回收的话，会造成内存泄露
+> 所以需要对以上的对象 进行管理。
+> 那么将以上的对象 挂上一个虚引用即可。
 ### ThreadLock
 
 JVM  多线程 设计模式 网约车  Redis ZK MYSQL调优 亿级流量
