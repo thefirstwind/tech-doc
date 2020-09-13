@@ -859,5 +859,5 @@ public class Case012_PhantomReference {
 > 参考资料
 > https://www.bilibili.com/video/BV1xK4y1C7aT?p=1
 ## 索引
-[1 Java多线程高并发详解](README.md)
-[2 Java多线程高并发详解2](README2.md)
+* [1 Java多线程高并发详解](README.md)
+* [2 Java多线程高并发详解2](README2.md)
