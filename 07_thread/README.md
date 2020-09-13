@@ -677,8 +677,8 @@ public class Case010_SoftReference {
 
 ```
 ### 6.3 弱引用
-#### 6.3.1 弱引用特点
-* 弱引用 就是一次性使用
+#### 6.3.1 弱引用的介绍
+* 弱引用 没有人用到时，经历一次GC就被回收
 ```
 import java.lang.ref.WeakReference;
 
@@ -697,11 +697,116 @@ public class Case011_WeakReference {
 }
 
 ```
-#### 6.3.2 弱引用的实现
-![](images/7D1CA952-856F-4DA4-8F23-DE06002BF4CB.png)
 
-#### 6.3.3 弱引用的应用
-JVM 里面的NIO
+#### 6.3.2 先了解什么是 ThreadLocal
+ThreadLocal叫线程本地变量
+```java
+import java.util.concurrent.TimeUnit;
+
+public class Case013_ThreadLocal {
+    static ThreadLocal<Person> t1 = new ThreadLocal<>();
+
+    public static void main(String[] args){
+        new Thread(()->{
+            try{
+                TimeUnit.SECONDS.sleep(2);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+            System.out.println(t1.get());
+        }).start();
+
+        new Thread(()->{
+            try{
+                TimeUnit.SECONDS.sleep(1);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+            t1.set(new Person());
+        });
+    }
+
+    static class Person{
+        String name = "zhangsan";
+
+        public String toString(){
+            String str = "name = " + name;
+            return str;
+        }
+    }
+}
+```
+输出结果
+```
+null
+```
+#### 6.3.3 ThreadLocal源码
+```java
+    // ThreadLocal源码跟踪
+    ThreadLocal<M> tl = new ThreadLocal<>();
+    tl.set(new M());
+    tl.remove();
+
+    
+    
+```
+```java
+public void set(T value) {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null) {
+        map.set(this, value);
+    } else {
+        createMap(t, value);
+    }
+}
+```
+```java
+ThreadLocalMap getMap(Thread t) {
+    return t.threadLocals;
+}
+
+```
+```java
+ThreadLocal.ThreadLocalMap threadLocals = null;
+```
+```java
+static class ThreadLocalMap {
+    static class Entry extends WeakReference<ThreadLocal<?>> {
+        /** The value associated with this ThreadLocal. */
+        Object value;
+
+        Entry(ThreadLocal<?> k, Object v) {
+            super(k);
+            value = v;
+        }
+    }
+}
+```
+```java
+static class Entry extends WeakReference<ThreadLocal<?>> {
+    /** The value associated with this ThreadLocal. */
+    Object value;
+
+    Entry(ThreadLocal<?> k, Object v) {
+        super(k);
+        value = v;
+    }
+}
+```
+结论 ThreadLocal是用WeakReference实现的
+#### 6.3.3 弱引用的实现
+![](images/7D1CA952-856F-4DA4-8F23-DE06002BF4CB.png)
+* Step1 tl 设置了一个强引用 指向 ThreadLocal
+* Step2 之后key 设置了一个弱引用 指向 ThreadLocal
+
+这个做法是为了防止内存泄露
+
+* 在使用threadLocal的时候，一旦某些元素不适用了，必须使用 remove
+
+#### 6.3.4 弱引用的应用
+* JVM 里面的NIO
+* Spring 里面的 @Transactional
 
 ### 6.4 虚引用
 ![](images/37F4F531-84D9-49C1-AFE6-80373F409EE8.png)
@@ -749,6 +854,3 @@ public class Case012_PhantomReference {
 > JVM内有一个对象，关联着一个堆外内存，如果没人回收的话，会造成内存泄露
 > 所以需要对以上的对象 进行管理。
 > 那么将以上的对象 挂上一个虚引用即可。
-### ThreadLock
-
-JVM  多线程 设计模式 网约车  Redis ZK MYSQL调优 亿级流量

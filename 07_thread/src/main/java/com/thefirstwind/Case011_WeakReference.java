@@ -10,8 +10,5 @@ public class Case011_WeakReference {
         System.gc();
         System.out.println(m.get());
 
-        ThreadLocal<M> tl = new ThreadLocal<>();
-        tl.set(new M());
-        tl.remove();
     }
 }
