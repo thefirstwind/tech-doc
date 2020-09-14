@@ -1,9 +1,9 @@
 # JVM 概述
 注：本文有大量配图，想正常浏览，请下载到本地观看 或者参考下文 设置 https://blog.csdn.net/lr157/article/details/105665798
 
-## 参考资料
-https://www.bilibili.com/video/BV1ZK411p7cr?p=1
-https://www.bilibili.com/video/BV1mC4y1H7QC?p=1
+<!--## 参考资料-->
+<!--https://www.bilibili.com/video/BV1ZK411p7cr?p=1-->
+<!--https://www.bilibili.com/video/BV1mC4y1H7QC?p=1-->
 ## 常见的面试题
 * 1 CMS和G1的异同
 * 2 G1什么时候引发FullGC

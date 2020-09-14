@@ -1,6 +1,6 @@
 # Java设计模式：23种设计模式全面解析
 
-参考资料： http://c.biancheng.net/design_pattern/
+<!--参考资料： http://c.biancheng.net/design_pattern/-->
 
 ## 【目录】
 * [01 软件设计模式概述](designPattern_01.md)
