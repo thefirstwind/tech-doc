@@ -4,7 +4,7 @@
 <!--## 参考资料-->
 <!--https://www.bilibili.com/video/BV1ZK411p7cr?p=1-->
 <!--https://www.bilibili.com/video/BV1mC4y1H7QC?p=1-->
-## 常见的面试题
+## 问题汇总
 * 1 CMS和G1的异同
 * 2 G1什么时候引发FullGC
 * 3 说一个最熟悉的垃圾回收算法
