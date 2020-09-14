@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>03_JVM_Practise</module>
+        <module>02_JVM</module>
 <!--        <module>java-design-patterns</module>-->
         <module>04_DesignPattern</module>
         <module>05_DesignPattern</module>
@@ -18,6 +18,8 @@
         <module>07_thread</module>
         <module>08_thread</module>
         <module>09_algorithm</module>
+        <module>10_mysql</module>
+        <module>50_interview</module>
 
     </modules>
 
