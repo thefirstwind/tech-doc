@@ -363,6 +363,27 @@ optimize table 可以整理碎片
 ### 6.6.5 索引下堆
 explain 时 出现 Using index condition 表示索引下推
 
+## 7 MySql事务
+
+### 7.1 事务的传播特性
+|No|名称|解释|
+| ----- | ------- | -------- |
+|1|PROPAGATION_REQUIRED|如果当前没有事务，就创建一个新事务，如果当前存在事务，就加入该事务，该设置是最常用的设置。|
+|2|PROPAGATION_NESTED|如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作|
+|3|PROPAGATION_SUPPORTS|支持当前事务，如果当前存在事务，就加入该事务，如果当前不存在事务，就以非事务执行。|
+|4|PROPAGATION_MANDATORY|支持当前事务，如果当前存在事务，就加入该事务，如果当前不存在事务，就抛出异常。|
+|5|PROPAGATION_REQUIRES_NEW|支持当前事务，创建新事务，无论当前存不存在事务，都创建新事务。|
+|6|PROPAGATION_NOT_SUPPORTED|以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。|
+|7|PROPAGATION_NEVER|以非事务方式执行，如果当前存在事务，则抛出异常。|
+
+### 7.2 事务的隔离级别
+|No|英文|名称|解释|
+|----|----|----|----|
+|1|read uncommitted|读取未提交内容|脏读，不可重复读，虚读都有可能发生|
+|2|read committed|读取提交内容|避免脏读。但是不可重复读和虚读是有可能发生|
+|3|repeatable read|可重读|避免脏读和不可重复读，但是虚读有可能发生|
+|4|serializable|可串行化|避免脏读，不可重复读，虚读|
+
 
 
 
