@@ -365,6 +365,9 @@ explain 时 出现 Using index condition 表示索引下推
 
 ## 7 MySql事务
 
+![](images/4A34FF94-6E8B-4054-95FD-51FE3E55B629.png)
+![](images/9DFB9C83-703E-4CDD-97FD-1D126A6FA74A.png)
+
 ### 7.1 事务的传播特性
 |No|名称|解释|
 | ----- | ------- | -------- |
@@ -706,6 +709,14 @@ mysql> SELECT * from test.testnum;
 
 ##### 7.2.3.4 可串行化 Serializable
 略，一般不用，效率太低
+
+## 7.3
+## 99 杂项
+* 基数
+* hyperloglog 算法
+* bloomfilter 算法
+![](images/55AE3F79-9000-40D2-ACE5-B352273C3FC9.png)
+
 
 * 问题总结： https://juejin.im/post/6844904162094759949
 * 参考地址： https://www.bilibili.com/video/BV1bD4y1m7RU?p=5
