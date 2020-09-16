@@ -377,17 +377,335 @@ explain 时 出现 Using index condition 表示索引下推
 |7|PROPAGATION_NEVER|以非事务方式执行，如果当前存在事务，则抛出异常。|
 
 ### 7.2 事务的隔离级别
-|No|英文|名称|解释|
-|----|----|----|----|
-|1|read uncommitted|读取未提交内容|脏读，不可重复读，虚读都有可能发生|
-|2|read committed|读取提交内容|避免脏读。但是不可重复读和虚读是有可能发生|
-|3|repeatable read|可重读|避免脏读和不可重复读，但是虚读有可能发生|
-|4|serializable|可串行化|避免脏读，不可重复读，虚读|
+
+#### 7.2.1 事务的基本要素ACID
+* 原子性: Atomicity: 事务开始后所有操作，要吗全部做完，要吗全部不做。出现错误，要回滚。
+* 一致性: Consistency: 事务开始前和后，数据库约束没有被破坏。比如 A转账给B，不能 A扣了钱，B却没收到。
+* 隔离性: Isolation: 同一时间，只允许 一个事务请求同一数据，不同的事务之间彼此没有任何干扰。比如 A正从卡里取钱，A取钱的时候，B不能向这张卡转账。
+* 持久性: Durability: 事务完成后，事务对数据库所有的更新将被保存到数据库，不能回滚。
+
+#### 7.2.2 事务的并发问题
+* 脏读：
+* 不可重复读：
+* 幻读：
+
+#### 7.2.3 事务隔离级别
+所谓事务级别就是多个事务之间修改数据之后，未提交之前 数据对其他事务的可见性。
+
+事务隔离级别只在当前数据库有效。
 
 
+|No|英文|名称|脏读|不可重复读|幻读|
+|----|----|----|----|----|----|
+|1|read uncommitted|读取未提交内容|√|√|√|
+|2|read committed|读取提交内容|X|√|√|
+|3|repeatable read|可重读|X|X|√|
+|4|serializable|可串行化|X|X|X|
+
+mysql 默认级别是 READ-COMMITTED
+``` mysql
+-- 查看当前事物级别：
+SELECT @@transaction_isolation;
+show variables like '%transaction_isolation%';
+
+-- 设置read uncommitted级别：
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+-- 设置read committed级别：
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+-- 设置repeatable read级别：
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+-- 设置serializable级别：
+SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 
 
-另，还有一篇更详尽的说明：https://juejin.im/post/6844904162094759949
-https://www.bilibili.com/video/BV1bD4y1m7RU?p=5
+SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+```
+注，SESSION设置好了之后，仅对当前连接生效，再次连接不会有作用。  
+GLOBAL设置好了之后，当前不能生效，只有从新建立连接后才能生效。
 
+<!--http://c.biancheng.net/view/7265.html-->
+```mysql
+mysql> create database test;
+Query OK, 1 row affected (0.00 sec)
 
+mysql> use test;
+Database changed
+
+mysql> CREATE TABLE testnum(num INT(4));
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> INSERT INTO test.testnum (num) VALUES(1),(2),(3),(4),(5);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+```
+##### 7.2.3.1 读未提交 Read Uncommited / RU
+A事务已执行，但未提交；B事务查询到A事务更新后的数据；A事务回滚。 B出来的就是脏数据
+
+下面演示脏读
+
+窗口1
+```
+mysql> SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+Query OK, 0 rows affected (0.00 sec)
+```
+
+重新开启窗口1
+```
+mysql> show variables like '%transaction_isolation%';
++-----------------------+------------------+
+| Variable_name         | Value            |
++-----------------------+------------------+
+| transaction_isolation | READ-UNCOMMITTED |
++-----------------------+------------------+
+1 row in set (0.01 sec)
+
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from testnum;
++------+
+| num  |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE test.testnum SET num=num*2 WHERE num=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+```
+
+窗口2
+```
+mysql> SELECT * FROM testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.01 sec)
+```
+
+窗口1
+```
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+```
+
+窗口2
+```
+mysql> SELECT * FROM testnum;
++------+
+| num  |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+```
+##### 7.2.3.2 读提交 Read Committed / RC 的不可重复读
+A和B同时执行，A在事务中修改了数据，并且提交， B未结束之前再次读取数据 和 之前读到的不一致。
+
+这是大多数数据库系统的默认事务隔离级别（例如 Oracle、SQL Server），但不是 MySQL 默认的。
+
+以下演示提交隔离级别后产生的不可重复读的问题
+
+窗口1
+```mysql
+mysql> SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED;
+Query OK, 0 rows affected (0.00 sec)
+```
+重新开启窗口1
+```mysql
+mysql> SELECT @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| READ-COMMITTED        |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> BEGIN;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE test.testnum SET num=num*2 WHERE num=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+
+```
+
+窗口2
+```mysql
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+```
+
+窗口1
+```mysql
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+```
+
+窗口2
+```mysql
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+
+```
+
+##### 7.2.3.3 可重复读 Repeatable Read / RR
+
+A和B同时执行，A在事务中修改了数据，并且提交， B直到执行结束 多次查询数据 不会有变化。
+
+例 3 演示了在可重复读隔离级别中产生的幻读问题。
+
+窗口1
+```mysql
+mysql> SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+Query OK, 0 rows affected (0.00 sec)
+```
+重新开启窗口1
+```mysql
+mysql> SELECT @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| REPEATABLE-READ        |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> BEGIN;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE test.testnum SET num=12 WHERE num=3;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+
+```
+
+窗口2
+```mysql
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+```
+
+窗口1
+```mysql
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|   12 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+```
+
+窗口2
+```mysql
+mysql> SELECT * from test.testnum;
++------+
+| num  |
++------+
+|    1 |
+|    4 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.00 sec)
+
+```
+
+##### 7.2.3.4 可串行化 Serializable
+略，一般不用，效率太低
+
+* 另，还有一篇更详尽的说明：https://juejin.im/post/6844904162094759949
+* https://www.bilibili.com/video/BV1bD4y1m7RU?p=5
