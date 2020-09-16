@@ -720,3 +720,4 @@ mysql> SELECT * from test.testnum;
 
 * 问题总结： https://juejin.im/post/6844904162094759949
 * 参考地址： https://www.bilibili.com/video/BV1bD4y1m7RU?p=5
+* 推荐阅读： mysql45讲 https://dirtysalt.github.io/html/geekbang-mysql-practice.html
