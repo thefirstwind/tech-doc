@@ -707,5 +707,5 @@ mysql> SELECT * from test.testnum;
 ##### 7.2.3.4 可串行化 Serializable
 略，一般不用，效率太低
 
-* 另，还有一篇更详尽的说明：https://juejin.im/post/6844904162094759949
-* https://www.bilibili.com/video/BV1bD4y1m7RU?p=5
+* 问题总结： https://juejin.im/post/6844904162094759949
+* 参考地址： https://www.bilibili.com/video/BV1bD4y1m7RU?p=5
