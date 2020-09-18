@@ -19,6 +19,7 @@
         <module>08_thread</module>
         <module>09_algorithm</module>
         <module>10_mysql</module>
+        <module>11_spring</module>
         <module>50_interview</module>
 
     </modules>
