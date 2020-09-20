@@ -1,5 +1,8 @@
 # Spring Cloud 的组件介绍
 
+* 要正常显示图片的话，请修改DNS：114.114.114.114 或 8.8.8.8
+* 要正常显示plantuml图 需要安装插件 https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+
 <!--https://blog.csdn.net/With_Her/article/details/97165385-->
 Spring Cloud 提供几个组件：Eureka、Ribbon、Feign、Hystrix、Zuul
 

@@ -1,6 +1,10 @@
 
 # Java多线程高并发讲解
 
+* 要正常显示图片的话，请修改DNS：114.114.114.114 或 8.8.8.8
+* 要正常显示plantuml图 需要安装插件 https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+
+
 ## 1 问题汇总
 * 请描述synchronized 和 reentrantlock的底层实现及重入的底层原理
 * 请描述锁四种状态和升级过程

@@ -1,9 +1,12 @@
 # Java多线程高并发详解3
 
-* LockSupport
-* 淘宝面试题
-* 源码阅读技巧
-* AQS源码解析
+* 要正常显示图片的话，请修改DNS：114.114.114.114 或 8.8.8.8
+* 要正常显示plantuml图 需要安装插件 https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+
+<!--* LockSupport-->
+<!--* 淘宝面试题-->
+<!--* 源码阅读技巧-->
+<!--* AQS源码解析-->
 
 
 ## 1 问题汇总

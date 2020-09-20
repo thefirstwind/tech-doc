@@ -1,5 +1,8 @@
 # JVM 概述2
 
+* 要正常显示图片的话，请修改DNS：114.114.114.114 或 8.8.8.8
+* 要正常显示plantuml图 需要安装插件 https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+
 ### 一个class的生命周期
 ![](images/8F46E6D0-D1A4-4663-B7EC-4B6C36B1AD5B.png)
 

@@ -1,4 +1,8 @@
 # Java多线程高并发详解2
+
+* 要正常显示图片的话，请修改DNS：114.114.114.114 或 8.8.8.8
+* 要正常显示plantuml图 需要安装插件 https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+
 ## 1 AQS(CLH)
 ![](images/84B971A2-B562-47AE-A894-7ED910A4ED6A.png)
 > 是一个用于构建锁和同步容器的框架。事实上concurrent包内许多类都是基于AQS构建，  

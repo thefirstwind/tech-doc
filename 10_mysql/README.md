@@ -1,5 +1,8 @@
 # Mysql讲解
 
+* 要正常显示图片的话，请修改DNS：114.114.114.114 或 8.8.8.8
+* 要正常显示plantuml图 需要安装插件 https://chrome.google.com/webstore/detail/pegmatite/jegkfbnfbfnohncpcfcimepibmhlkldo
+
 <!--https://www.bilibili.com/video/BV1bD4y1m7RU?from=search&seid=2211861062542380942-->
 
 ## 1 Mysql的相关知识点需要了解哪些
