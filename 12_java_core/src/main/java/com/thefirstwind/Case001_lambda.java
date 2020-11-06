@@ -2,9 +2,13 @@ package com.thefirstwind;
 
 import org.junit.Test;
 
-import java.util.Comparator;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Case001_lambda {
 
@@ -140,6 +144,13 @@ public class Case001_lambda {
 
     //value作为function1的参数，返回一个结果，该结果作为function2的参数，返回一个最终结果
     fun.andThen(fun2).apply(1);
+
+
+    Function<String, Integer> fun3 = s -> Integer.parseInt(s) +20;
+    Function<Integer, String> fun4 = s -> "in_:" + String.valueOf(s);
+
+    System.out.println("in_:" + fun3.apply("1"));
+    System.out.println(fun3.andThen(fun4).apply("1"));
   }
 
   @Test
@@ -149,53 +160,83 @@ public class Case001_lambda {
       Integer in = (Integer)s;
       System.out.println("in:" + in);
     };
-    Consumer<Object> fun2 = (s) -> {
-      Integer in = (Integer)s;
-      System.out.println("in:" + in);
-    };
     fun.accept(1);
 
+    Consumer<String> fun2 = s -> System.out.print("in_:" + s);
+    fun2.accept("1");
   }
 
   @Test
   public void case009LambdaPredicate(){
 
-    Consumer<Object> fun = (s) -> {
-      Integer in = (Integer)s;
-      System.out.println("in:" + in);
+    Predicate<Integer> fun = (s) -> {
+      return (s == 3);
     };
-    Consumer<Object> fun2 = (s) -> {
-      Integer in = (Integer)s;
-      System.out.println("in:" + in);
+    fun.test(1);
+
+
+    Predicate<Integer> fun2 = s -> s == 3;
+    fun2.test(1);
+  }
+
+  @Test
+  public void case010LambdaSupplier(){
+
+    Supplier<String> fun = () -> {
+      return "hello supplier";
     };
-    fun.accept(1);
+    System.out.println(fun.get());
 
   }
 
-//  @Test
-//  public void case002(){
-//    Object fooHolder = (Foo1) () -> System.out.println("Hello");
-//    System.out.println(fooHolder instanceof Foo1); // returns true
-//  }
+  @Test
+  public void case011LambdaMethodReference(){
 
-  interface Foo1 {
-    void bar();
+    Supplier<HashMap<String,Object>> mapFun = HashMap::new;
   }
 
-  interface Foo2 {
-    int bar(boolean baz);
+  @Test
+  public void case012LambdaMethodReference(){
+    List<String> list = Arrays.asList("1", "22", "333");
+    list.forEach(s -> System.out.println(s));
+    list.forEach(System.out::println);
   }
 
-  interface Foo3 {
-    String bar(Object baz, int mink);
+  @Test
+  public void case013LambdaStream(){
+    List<String> list = Arrays.asList("1", "22", "333");
+    List<Integer> list2 = list.stream()
+            .filter((s)-> s.length() >= 2)
+            .sorted()
+            .map((s) -> Integer.parseInt(s) + 1)
+            .collect(Collectors.toList());
+
+    System.out.println(list2);
   }
 
-  interface Foo4 {
-    default String bar() { // default so not counted
-      return "baz";
-    }
-    void quux();
+  @Test
+  public void case014LambdaStream(){
+    List<String> list = Arrays.asList("1", "2", "3");
+    Stream<String> stream = list.stream();
+
+    Stream<String> stream2 = Stream.of("1", "2", "3");
   }
+  @Test
+  public void case015LambdaStream(){
+    String[] array = new String[]{"1","2","3"};
+    Stream<String> stream1 = Arrays.stream(array);
+    Stream<String> stream2 = Stream.of(array);
+  }
+  @Test
+  public void case016LambdaStream(){
+    Map<Integer, String> map = new HashMap<Integer, String>();
+    map.put(1, "value1");
+    map.put(2, "value2");
+    map.put(3, "value3");
+    Stream<Map.Entry<Integer,String>> stream = map.entrySet().stream();
+  }
+
+
 
 
 }

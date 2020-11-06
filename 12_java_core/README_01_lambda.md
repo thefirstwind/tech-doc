@@ -1,5 +1,6 @@
 # Java lambda
 
+[github](https://github.com/thefirstwind/tech-doc/blob/master/12_java_core/src/main/java/com/thefirstwind/Case001_lambda.java)
 
 ##  Lambda表达式
 * 函数式接口
@@ -13,7 +14,7 @@
 * Map-Reduce
 * 新的Date API
 
-## 1. 函数式接口
+## 1 函数式接口
 
 ### 1.1 匿名函数()的使用
 ```java
@@ -150,6 +151,13 @@
 
     //value作为function1的参数，返回一个结果，该结果作为function2的参数，返回一个最终结果
     fun.andThen(fun2).apply(1);
+    
+    Function<String, Integer> fun3 = s -> Integer.parseInt(s) +20;
+    Function<Integer, String> fun4 = s -> "in_:" + String.valueOf(s);
+
+    System.out.println("in_:" + fun3.apply("1"));
+    System.out.println(fun3.andThen(fun4).apply("1"));
+
   }
 
 ```
@@ -162,20 +170,134 @@
       Integer in = (Integer)s;
       System.out.println("in:" + in);
     };
-    Consumer<Object> fun2 = (s) -> {
-      Integer in = (Integer)s;
-      System.out.println("in:" + in);
-    };
     fun.accept(1);
+
+    Consumer<String> fun2 = s -> System.out.print("in_:" + s);
+    fun2.accept("1");
 
   }
 ```
 ### 1.8 Predicate断言型函数式接口的应用
+```java
+  @Test
+  public void case009LambdaPredicate(){
+
+    Predicate<Integer> fun = (s) -> {
+      return (s == 3);
+    };
+    fun.test(1);
+
+  }
+
+```
 ### 1.9 Supplier供给型函数式接口的应用
+```java
+  @Test
+  public void case010LambdaSupplier(){
 
-List操作
+    Supplier<String> fun = () -> {
+      return "hello supplier";
+    };
+    System.out.println(fun.get());
 
-Map操作
+  }
+
+```
+
+## 2 方法引用
+```java
+  @Test
+  public void case011LambdaMethodReference(){
+
+    Supplier<HashMap<String,Object>> mapFun = HashMap::new;
+  }
+
+  @Test
+  public void case012LambdaMethodReference(){
+    List<String> list = Arrays.asList("1", "22", "333");
+    list.forEach(s -> System.out.println(s));
+    list.forEach(System.out::println);
+  }
+```
+
+## 3 Stream接口
+
+请重点理解下图
+* filter 使用 Predicate断言函数式接口
+* sorted 使用 Comparator函数式接口
+* map 使用 Function函数式接口
+
+![](../_images/BE758AE9-FDCC-48C1-B89B-E7D8082421F1.png)
+
+
+来一段代码理解理解
+
+```java
+  @Test
+  public void case013LambdaStream(){
+    List<String> list = Arrays.asList("1", "22", "333");
+    List<Integer> list2 = list.stream()
+            .filter((s)-> s.length() >= 2)
+            .sorted()
+            .map((s) -> Integer.parseInt(s) + 1)
+            .collect(Collectors.toList());
+
+    System.out.println(list2);
+  }
+
+```
+
+### 3.1 Collection to Stream
+```java
+  @Test
+  public void case014LambdaStream(){
+    List<String> list = Arrays.asList("1", "2", "3");
+    Stream<String> stream = list.stream();
+
+    Stream<String> stream2 = Stream.of("1", "2", "3");
+  }
+```
+
+### 3.2 Array to Stream
+```java
+  @Test
+  public void case015LambdaStream(){
+    String[] array = new String[]{"1","2","3"};
+    Stream<String> stream1 = Arrays.stream(array);
+    Stream<String> stream2 = Stream.of(array);
+  }
+```
+
+### 3.3 Map to Stream
+```java
+  @Test
+  public void case016LambdaStream(){
+    Map<Integer, String> map = new HashMap<Integer, String>();
+     map.put(1, "value1");
+     map.put(2, "value2");
+     map.put(3, "value3");
+     Stream<Map.Entry<Integer,String>> stream = map.entrySet().stream();
+  }
+```
+
+### 3.4 terminal operation 常用方法
+* forEach ： 迭代Stream
+* toArray ： 转为数组
+* max ： 取最大值
+* min ： 取最小值
+* sum ： 求和
+* count ： Stream 中元素数量
+* average ： 求平均数
+* findFirst ： 返回第一个元素
+* findAny ： 返回流中的某一个元素
+* allMatch ： 是否所有元素都满足条件
+* anyMatch ： 是否存在元素满足条件
+* noneMatch ： 是否没有元素满足条件
+* reduce ： 执行聚合操作，上面的 sum、min、max 方法一般是基于 reduce 来实现的
+* collect ： 执行相对 reduce 更加复杂的聚合操作，上面的 average 方法一般是基于 collect 来实现的
+
+https://xxgblog.com/2020/04/17/java-8-stream/
+
 
 Groupingby操作
 
