@@ -1,4 +1,4 @@
-# learn google guava basics
+# Guava basics
 
 <!--https://www.baeldung.com/guava-guide-->
 
