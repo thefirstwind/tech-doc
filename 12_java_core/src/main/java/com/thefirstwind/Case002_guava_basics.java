@@ -604,14 +604,4 @@ public class Case002_guava_basics {
     assertThat(areNumbersEven, contains(false, true, false, true));
 
   }
-  /**
-   * ========================================================
-   https://www.baeldung.com/guava-order
-   * ========================================================
-   */
-  /**
-   * ========================================================
-   https://www.baeldung.com/guava-collections
-   * ========================================================
-   */
-  }
+}

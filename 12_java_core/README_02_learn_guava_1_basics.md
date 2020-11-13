@@ -643,14 +643,3 @@ public void whenLimitSplitting_thenLimited() {
 
 
 
-
-
-
-
-
-## 7 Guava: Ordering Cookbook
-## 8 Guava: Collections Cookbook
-
-
-
-
