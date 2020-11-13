@@ -296,6 +296,30 @@
 * reduce ： 执行聚合操作，上面的 sum、min、max 方法一般是基于 reduce 来实现的
 * collect ： 执行相对 reduce 更加复杂的聚合操作，上面的 average 方法一般是基于 collect 来实现的
 
+### 3.5 Stream has already been operated upon or closed 解决方案
+
+```java
+  @Test
+  public void case017LambdaStream(){
+    Supplier<Stream<String>> streamSupplier = () -> Stream.of("1","2","3");
+    List<String> list = streamSupplier.get().collect(Collectors.toList());
+    Set<String> set = streamSupplier.get().collect(Collectors.toSet());
+    String str = streamSupplier.get().collect(Collectors.joining());
+    Long count = streamSupplier.get().count();
+
+    System.out.println(list);
+    System.out.println(set);
+    System.out.println(str);
+    System.out.println(count);
+  }
+```
+
+## 4 Collector
+
+Stream 接口有一个 collect方法
+
+## 5 Collectors 接口
+
 https://xxgblog.com/2020/04/17/java-8-stream/
 
 

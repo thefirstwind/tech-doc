@@ -236,8 +236,19 @@ public class Case001_lambda {
     Stream<Map.Entry<Integer,String>> stream = map.entrySet().stream();
   }
 
+  @Test
+  public void case017LambdaStream(){
+    Supplier<Stream<String>> streamSupplier = () -> Stream.of("1","2","3");
+    List<String> list = streamSupplier.get().collect(Collectors.toList());
+    Set<String> set = streamSupplier.get().collect(Collectors.toSet());
+    String str = streamSupplier.get().collect(Collectors.joining());
+    Long count = streamSupplier.get().count();
 
-
+    System.out.println(list);
+    System.out.println(set);
+    System.out.println(str);
+    System.out.println(count);
+  }
 
 }
 
