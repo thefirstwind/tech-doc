@@ -278,7 +278,7 @@ public class Case003_guava_cache {
    */
 
   @Test
-  public void whenEntryRemovedFromCache_thenNotify() {
+  public void whenEntryRemovedFromCache_thenNotify(){
     CacheLoader<String, String> loader;
     loader = new CacheLoader<String, String>() {
       @Override
@@ -314,7 +314,6 @@ public class Case003_guava_cache {
     System.out.println("cache map: " + cache.asMap());
     cache.getUnchecked("third");
     System.out.println("cache map: " + cache.asMap());
-    cache.getUnchecked("last");
     System.out.println("cache map: " + cache.asMap());
     assertEquals(3, cache.size());
   }
