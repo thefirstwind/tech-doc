@@ -2,6 +2,8 @@
 
 <!--https://www.baeldung.com/guava-guide-->
 
+[github](https://github.com/thefirstwind/tech-doc/blob/master/12_java_core/src/main/java/com/thefirstwind/Case002_guava_basics.java)
+
 ## 1 Guava: Preconditions
 * No arguments. Exceptions are thrown without an error message
 * An extra Object argument acting as an error message. Exceptions are thrown with an error message
